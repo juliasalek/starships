@@ -1,0 +1,17 @@
+.battle {
+  display: flex;
+  gap: 24px;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  background: #213555;
+}
+
+.battle-title {
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 28px;
+  color: white;
+}

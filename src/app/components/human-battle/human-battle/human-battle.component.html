@@ -1,0 +1,31 @@
+<div class="battle-view">
+  <div *ngIf="leftHuman$ | async as leftHuman">
+    <app-human-card
+      [human]="leftHuman"
+      [badgePosition]="'before'"
+      [counter]="leftScore"
+    ></app-human-card>
+  </div>
+
+  <div *ngIf="rightHuman$ | async as rightHuman">
+    <app-human-card
+      [human]="rightHuman"
+      [counter]="rightScore"
+    ></app-human-card>
+  </div>
+</div>
+<div class="battle-footer">
+  <button
+    mat-fab
+    color="warn"
+    aria-label="Example icon button with a home icon"
+    (click)="generateNewPlayers()"
+  >
+    <mat-icon>replay</mat-icon>
+  </button>
+  <div *ngIf="winner$ | async as winner">
+    <mat-card class="winner-card">
+      <mat-card-content>Winner is: {{ winner.name }}</mat-card-content>
+    </mat-card>
+  </div>
+</div>
