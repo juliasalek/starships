@@ -1,17 +1,27 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HumanBattleComponent } from './components/human-battle/human-battle/human-battle.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: HumanBattleComponent,
-    title: 'Human Battle!'
+    path: 'human',
+    loadChildren: () =>
+      import('./human-battle/human-battle.module').then(
+        (m) => m.HumanBattleModule
+      ),
   },
+  {
+    path: 'starships',
+    loadChildren: () =>
+      import('./starships-battle/starships-battle.module').then(
+        (m) => m.StarshipsBattleModule
+      ),
+  },
+  { path: '', redirectTo: '/human', pathMatch: 'full' },
+  { path: '**', redirectTo: '/human' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

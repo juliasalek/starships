@@ -5,13 +5,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { HumanCardComponent } from './human-card/human-card.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import {MatBadgeModule} from '@angular/material/badge';
+import { MatBadgeModule } from '@angular/material/badge';
+import { HumanBattleRoutingModule } from './human-battle-routing.module';
 
 //TODO make export of all Mat modules
 
 @NgModule({
   declarations: [HumanBattleComponent, HumanCardComponent],
-  imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatBadgeModule],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    MatBadgeModule,
+    HumanBattleRoutingModule,
+  ],
   exports: [HumanBattleComponent],
 })
 export class HumanBattleModule {}

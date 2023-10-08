@@ -1,4 +1,21 @@
 <div class="battle">
-  <div class="battle-title">Human Battle!</div>
-  <app-human-battle class="battle-content"></app-human-battle>
+  <div class="battle-title">Start the battle!</div>
+  <nav mat-tab-nav-bar color="primary" [tabPanel]="tabPanel">
+    <a
+      mat-tab-link
+      *ngFor="let link of navLinks"
+      [routerLink]="link.link"
+      routerLinkActive
+      #rla="routerLinkActive"
+      [active]="rla.isActive"
+      >{{ link.label }}
+    </a>
+  </nav>
+  <mat-tab-nav-panel #tabPanel>
+    <!-- //TODO Fix height for rendered content -->
+    <div class="battle-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-tab-nav-panel>
+  <router-outlet></router-outlet>
 </div>
