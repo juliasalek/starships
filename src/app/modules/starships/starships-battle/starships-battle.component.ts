@@ -1,5 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject, map, takeUntil, tap, withLatestFrom } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  combineLatest,
+  filter,
+  map,
+  takeUntil,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 import { Starship } from '../../../interfaces';
 import { StarWarsApiService } from '../../../services';
 
@@ -13,16 +22,16 @@ import { StarWarsApiService } from '../../../services';
         gap: 24px;
       }
 
-      .winner-card {
-        background-color: var(--light-orange);
-      }
-
       .battle-footer {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 12px;
         width: 100%;
+
+        &-card {
+          background-color: var(--light-orange);
+        }
       }
     `,
   ],
@@ -36,8 +45,8 @@ export class StarshipsBattleComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject();
 
   constructor(private apiService: StarWarsApiService) {}
+
   public ngOnInit(): void {
-    // TODO think about the case of the same id in generating
     this.generateNewPlayers();
   }
 
@@ -47,7 +56,6 @@ export class StarshipsBattleComponent implements OnInit, OnDestroy {
   }
 
   public generateNewPlayers() {
-    //TODO use tap to see how many observable are here
     const leftHumanId = this.getRandomNumber(1, 36).toString();
     const rightHumanId = this.getRandomNumber(1, 36).toString();
     this.leftStarship$ = this.apiService
@@ -61,21 +69,23 @@ export class StarshipsBattleComponent implements OnInit, OnDestroy {
   }
 
   private comparePlayers(): void {
-    if (this.rightStarship$ && this.leftStarship$) {
-      this.winner$ = this.leftStarship$.pipe(
-        takeUntil(this.destroyed$),
-        withLatestFrom(this.rightStarship$),
-        tap((res) => console.log(res)),
-        map(([first, second]) => {
-          console.log(first, second);
-          Number(first.crew) > Number(second.crew)
-            ? (this.leftScore = this.leftScore + 1)
-            : (this.rightScore = this.rightScore + 1);
-          // TODO increment number for one card
-          return Number(first.crew) > Number(second.crew) ? first : second;
-        })
-      );
-    }
+    this.winner$ = combineLatest([
+      this.leftStarship$ as Observable<Starship>,
+      this.rightStarship$ as Observable<Starship>,
+    ]).pipe(
+      filter(
+        ([leftValue, rightValue]) =>
+          leftValue !== undefined && rightValue !== undefined
+      ),
+      map(([first, second]) => {
+        Number(first.crew) > Number(second.crew)
+          ? (this.leftScore = this.leftScore + 1)
+          : (this.rightScore = this.rightScore + 1);
+        // TODO increment number for one card
+        return Number(first.crew) > Number(second.crew) ? first : second;
+      }),
+      takeUntil(this.destroyed$)
+    );
   }
 
   private getRandomNumber(min: number, max: number): number {

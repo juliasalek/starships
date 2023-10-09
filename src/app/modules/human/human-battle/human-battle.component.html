@@ -23,12 +23,11 @@
   >
     <mat-icon>replay</mat-icon>
   </button>
-  <mat-card class="winner-card">
+  <mat-card class="battle-footer-card">
     <div *ngIf="winner$ | async as winner">
-      <mat-card-content>Winner is: {{ winner.name }} based on height.</mat-card-content>
+      <mat-card-content
+        >Winner is: {{ winner.name }} based on height.</mat-card-content
+      >
     </div>
-    <ng-template #unknownMass
-      ><mat-card-content>Height is uknown.</mat-card-content>
-    </ng-template>
   </mat-card>
 </div>
