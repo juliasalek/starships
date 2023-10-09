@@ -1,9 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject, map, takeUntil, tap, withLatestFrom } from 'rxjs';
-import {
-  StarWarsApiServiceService,
-  Starship,
-} from 'src/app/services/star-wars-api-service.service';
+import { Starship } from '../../../interfaces';
+import { StarWarsApiService } from '../../../services';
 
 @Component({
   selector: 'app-starships-battle',
@@ -16,7 +14,7 @@ import {
       }
 
       .winner-card {
-        background-color: #d8c4b6;
+        background-color: var(--light-orange);
       }
 
       .battle-footer {
@@ -37,7 +35,7 @@ export class StarshipsBattleComponent implements OnInit, OnDestroy {
   public rightScore = 0;
   private destroyed$ = new Subject();
 
-  constructor(private apiService: StarWarsApiServiceService) {}
+  constructor(private apiService: StarWarsApiService) {}
   public ngOnInit(): void {
     // TODO think about the case of the same id in generating
     this.generateNewPlayers();

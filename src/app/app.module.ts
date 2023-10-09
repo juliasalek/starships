@@ -16,7 +16,6 @@ import { MatTabsModule } from '@angular/material/tabs';
     HttpClientModule,
     MatTabsModule,
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

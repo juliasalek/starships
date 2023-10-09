@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatBadgePosition } from '@angular/material/badge';
-import { Starship } from 'src/app/services/star-wars-api-service.service';
+import { Starship } from '../../../interfaces';
 
 @Component({
   selector: 'app-starship-card',
@@ -8,16 +8,16 @@ import { Starship } from 'src/app/services/star-wars-api-service.service';
   styles: [
     `
       .human-card {
-        background-color: #f5efe7;
+        background-color: var(--light-beige);
         display: flex;
         align-items: center;
 
         &-icon {
-          color: #d8c4b6;
+          color: var(--light-orange);
         }
 
         &-title {
-          color: #4f709c;
+          color: var(--light-blue);
         }
 
         &-content {
@@ -25,14 +25,13 @@ import { Starship } from 'src/app/services/star-wars-api-service.service';
           max-width: 400px;
           display: flex;
           flex-direction: column;
-          flex-grow: 1; /* Pozwala treści na rozciągnięcie się i zajęcie dostępnej przestrzeni */
-          padding: 20px; /* Wielkość wewnętrznego marginesu treści */
+          flex-grow: 1;
         }
       }
 
       .human-card--right {
         .human-card-icon {
-          color: #4f709c;
+          color: var(--light-blue);
         }
       }
     `,

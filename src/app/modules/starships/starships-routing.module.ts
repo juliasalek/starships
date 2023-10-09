@@ -8,4 +8,4 @@ const routes: Routes = [{ path: '', component: StarshipsBattleComponent }];
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class StarshipsBattleRoutingModule {}
+export class StarshipsRoutingModule {}

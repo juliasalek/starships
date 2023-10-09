@@ -1,11 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject, map, of, takeUntil, withLatestFrom } from 'rxjs';
-import {
-  Human,
-  StarWarsApiServiceService,
-} from 'src/app/services/star-wars-api-service.service';
-
-export enum ColorPalette {}
+import { Observable, Subject, map, takeUntil, withLatestFrom } from 'rxjs';
+import { Human } from '../../../interfaces';
+import { StarWarsApiService } from '../../../services';
 
 @Component({
   selector: 'app-human-battle',
@@ -20,7 +16,7 @@ export class HumanBattleComponent implements OnInit, OnDestroy {
   public rightScore = 0;
   private destroyed$ = new Subject();
 
-  constructor(private apiService: StarWarsApiServiceService) {}
+  constructor(private apiService: StarWarsApiService) {}
 
   public ngOnInit(): void {
     // TODO think about the case of the same id in generating
@@ -28,7 +24,6 @@ export class HumanBattleComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    console.log('destroyed')
     this.destroyed$.next(true);
     this.destroyed$.complete();
   }
