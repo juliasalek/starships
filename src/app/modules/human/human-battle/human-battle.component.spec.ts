@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 
 import { HumanBattleComponent } from './human-battle.component';
 import { StarWarsApiService } from '../../../services';
@@ -6,6 +6,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { Human } from '../../../interfaces';
 import { HumanCardComponent } from '../human-card';
+import { StarWarsMockService } from '../../../services/star-wars.mock.service';
+import { Observable, of, takeUntil } from 'rxjs';
 
 const testHuman2: Human = {
   birth_year: '1990',
@@ -51,9 +53,11 @@ describe('HumanBattleComponent', () => {
   let apiService: jasmine.SpyObj<StarWarsApiService>;
 
   beforeEach(() => {
-    const apiServiceSpy = jasmine.createSpyObj('StarWarsApiService', [
-      'getHumanById',
-    ]);
+    const apiServiceSpy = jasmine.createSpyObj(
+      'StarWarsApiService',
+      ['getHumanById'],
+      { id: '2' }
+    );
 
     TestBed.configureTestingModule({
       declarations: [HumanBattleComponent],
@@ -70,5 +74,21 @@ describe('HumanBattleComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should test generateNewPlayers() function', () => {
+    apiService.getHumanById.and.returnValues(of(testHuman), of(testHuman2));
+    component.generateNewPlayers();
+    expect(component.rightHuman$).toBeInstanceOf(Observable<Human>);
+    expect(component.leftHuman$).toBeInstanceOf(Observable<Human>);
+    component.leftHuman$?.subscribe((left) => {
+      expect(left).toEqual(testHuman);
+    });
+    component.rightHuman$?.subscribe((right) => {
+      expect(right).toEqual(testHuman2);
+    });
+    component.winner$?.subscribe((winner) => {
+      expect(winner).toEqual(testHuman2);
+    });
   });
 });

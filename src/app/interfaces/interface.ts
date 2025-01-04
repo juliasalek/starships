@@ -5,6 +5,9 @@ export interface HumanResponse {
   };
 }
 
+export type Human2 = Pick<Human, 'name'| 'mass'>;
+export type Human3 = Omit<Human, 'url'>;
+
 export interface StarshipResponse {
   message: string;
   result: {
